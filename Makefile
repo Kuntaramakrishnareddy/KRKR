@@ -1,11 +1,11 @@
-## This is a simple Makefile
+# This is a simple Makefile
 
 # Define what compiler to use and the flags
 
 CC=gcc
 #CFLAGS= -Wall -g -std=c99 -Werror -pthread
 CFLAGS= -Wall -g -std=c99
-TARGETS=main 
+TARGETS=main
 EXCUTEABLE=binary
 
 #From below line excution starts
@@ -22,10 +22,10 @@ $(TARGETS): main.o linkedlist.o miscell.o
 	$(CC) $(CFLAGS) -c $< -o $@
 
 #main.o: main.c linkedlist.h
-#	$(CC) -c $<
+#       $(CC) -c $<
 
 #linkedlist.o: linkedlist.c linkedlist.h
-#	$(CC) -c $<
+#       $(CC) -c $<
 
 $(EXCUTEABLE):$(TARGETS)
 	./$(TARGETS)
@@ -35,3 +35,4 @@ clean:
 
 ls:
 	ls -al
+
