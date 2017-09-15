@@ -6,7 +6,7 @@ struct node{
        struct node *next;
        };      
 
-struct node* creat_list(int );
+struct node* create_list(int );
 struct node* Add_Begin(struct node*, int);
 struct node* Remove_Begin(struct node*);
 

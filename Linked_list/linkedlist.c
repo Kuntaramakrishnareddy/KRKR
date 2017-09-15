@@ -10,7 +10,7 @@ int print_list(struct node* ptr)
       return 0;
 }
 
-struct node* creat_list(int value)
+struct node* create_list(int value)
 {
   struct node* ptr;
       ptr = (struct node*)malloc(sizeof(struct node));
