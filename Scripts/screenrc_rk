@@ -3,18 +3,15 @@ altscreen on
 windowlist string "%4n %h%=%f"
 hardstatus off
 hardstatus alwayslastline
-hardstatus alwayslastline "%{rk}%H %{gk}%c %{yk}%M%d
-%{wk}%?%-Lw%?%{bw}%n*%f%t%?(%u)%?%{wk}%?%+Lw%?"
-#hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{=
-	kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B}
-	%m-%d %{W} %c %{g}]'
-	vbell off
-	bell_msg ""
+hardstatus alwayslastline "%{rk}%H %{gk}%c %{yk}%M%d%{wk}%?%-Lw%?%{bw}%n*%f%t%?(%u)%?%{wk}%?%+Lw%?"
+#hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{=kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B}%m-%d %{W} %c %{g}]'
+vbell off
+bell_msg ""
 # Enable 256 color term
 #term xterm-256color
 # Cache 30000 lines for scroll back
-	defscrollback 30000
+defscrollback 30000
 #layout
-	layout autosave on
+layout autosave on
 
 
