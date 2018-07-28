@@ -1,0 +1,498 @@
+" All system-wide defaults are set in $VIMRUNTIME/debian.vim (usually just
+" /usr/share/vim/vimcurrent/debian.vim) and sourced by the call to :runtime
+" you can find below.  If you wish to change any of those settings, you should
+" do it in this file (/etc/vim/vimrc), since debian.vim will be overwritten
+" everytime an upgrade of the vim packages is performed.  It is recommended to
+" make changes after sourcing debian.vim since it alters the value of the
+" 'compatible' option.
+
+" This line should not be removed as it ensures that various options are
+" properly set to work with the Vim-related packages available in Debian.
+runtime! debian.vim
+
+" Uncomment the next line to make Vim more Vi-compatible
+" NOTE: debian.vim sets 'nocompatible'.  Setting 'compatible' changes numerous
+" options, so any other options should be set AFTER setting 'compatible'.
+"set compatible
+
+set nocompatible
+filetype off
+
+" Vim5 and later versions support syntax highlighting. Uncommenting the
+" following enables syntax highlighting by default.
+if has("syntax")
+  syntax on
+endif
+
+" If using a dark background within the editing area and syntax highlighting
+" turn on this option as well
+if &diff
+set background=dark
+endif
+
+" Uncomment the following to have Vim jump to the last position when
+" reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+" Uncomment the following to have Vim load indentation rules and plugins
+" according to the detected filetype.
+if has("autocmd")
+  " Enable file type detection.
+  " Use the default filetype settings, so that mail gets 'tw' set to 72,
+  " 'cindent' is on in C files, etc.
+  " Also load indent files, to automatically do language-dependent indenting.
+  filetype plugin indent on
+endif
+
+"------------------------------------------------------------------------
+" BASIC SETUP:
+" The following are commented out as they cause vim to behave a lot
+" differently from regular Vi. They are highly recommended though.
+
+" enter the current millenium
+set nocompatible
+
+" enable sytax and plugins (for netrw)
+syntax enable
+filetype plugin on
+"set showcmd            " Show (partial) command in status line.
+set showmatch           " Show matching brackets.
+set ignorecase          " Do case insensitive matching
+set smartcase           " Do smart case matching
+set incsearch           " Incremental search
+set hidden              " Hide buffers when they are abandoned
+"set mouse=a            " Enable mouse usage (all modes)
+set mouse-=a
+" set mousefocus
+set hlsearch
+set number
+"set relativenumber
+set wrap
+set tabstop=8
+set backspace=indent,eol,start  " allow backspacing over everything in insert mode
+set autoindent
+set cindent
+set copyindent
+set ff=unix       " Don't add space while pasting the content
+set shiftwidth=8  " number of spaces to use for autoindenting
+set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
+"set smarttab      " insert tabs on the start of a line according to
+                  "    shiftwidth, not tabstop
+set laststatus=2
+set history=1000         " remember more commands and search history
+set undolevels=1000      " use many muchos levels of undo
+set wildignore=*.swp,*.bak,*.pyc,*.class
+set title                " change the terminal's title
+set noerrorbells         " don't beep
+set wildmode=longest,list,full
+"set cursorline
+"set cursorcolumn
+set scrolloff=999
+set ruler
+set nofoldenable
+set foldmethod=syntax
+set textwidth=80
+set guioptions-=T " turn off GUI toolbar (icons)
+set guioptions-=r " turn off GUI right scrollbar
+set guioptions-=L " turn off GUI left scrollbar
+set winaltkeys=no " turn off stupid fucking alt shortcuts
+" show trailing whitespace chars
+"set list
+"set listchars=tab:\ \ ,trail:.,extends:#,nbsp:.
+"set statusline +=\ %n\ %*            "buffer number
+set statusline +=\ %<%f%*            "full path
+"set statusline +=%m%*                "modified flag
+"set statusline +=%=%5l%*             "current line
+set statusline +=/%L%*               "total lines
+"set statusline +=%4v\ %*             "virtual column number
+set statusline+=%F
+"set whichwrap+=<,>,h,l,[,]           " move to previous line using arrow keys
+set tags=./tags;/home/satish/dev-kernel/qnx "where to look ctags files
+set cscopetag
+"------------------------------------------------------------------------
+
+"------------------------------------------------------------------------
+" FINDING FILES:
+
+" Search down into subfolders
+" Provides tab-completion for all file-related tasks
+set path+=**
+
+" Display all matching files when we tab complete
+set wildmenu
+
+" NOW WE CAN:
+" - Hit tab to : find by partial match
+" - Use * to make it fuzzy
+
+" THINGS TO CONSIDER:
+" - :b lets you autocomplete any open buffer
+
+" TAG JUMPING:
+
+" Create the 'tags' file ( may need to install ctags 1st)
+"command! MakeTags !ctags -R .
+" NOW WE CAN:
+" - Use ^] to jump to tag under cursor
+" - Use g^] for ambiguous tags
+" - Use ^t to jump back up the tag stack
+
+" THINGS TO CONSIDER:
+" -This doesn't help if you want a visual list of tags
+
+
+"------------------------------------------------------------------------
+" FILE BROWSING:
+
+" Tweaks for browsing
+let g:netrw_banner=0        " disable annoying banner
+let g:netrw_browse_split=4  " open in prior window
+let g:netrw_altv=1          " open splits to the right
+let g:netrw_liststyle=3     " tree view
+"let g:netrw_list_hide=netrw_gitignore#Hide()
+"let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+
+let g:clever_f_ignore_case=1
+let g:clever_f_smart_case=1
+let g:clever_f_fix_key_direction=1
+let g:clever_f_show_prompt=1
+
+" VIM-AIRLINE CONFIG
+let g:airline_section_b = '%{strftime("%c")}'
+let g:airline_section_y = 'BN: %{bufnr("%")}'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extension#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline_powerline_fonts = 1
+let g:bufferline_echo = 0
+let g:SuperTabNoCompleteAfter = ['^', ',', '\s']
+" NOW WE CAN:
+" - : edit a folder to open a file browser
+" -<CR>/v/t to open in an h-split/v-split/tab
+" - check |netrw-browse-maps| for more mappings
+"------------------------------------------------------------------------
+" highlight text colors
+"hi MatchParen ctermfg=red ctermbg=black  guifg=red guibg=black
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => key maps
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+" next buffer key mapping
+map <C-J> :bprev<CR>
+map <C-K> :bnext<CR>
+
+"key maps for movement in insert mode
+inoremap <A-h> <C-o>h
+inoremap <A-j> <C-o>j
+inoremap <A-k> <C-o>k
+inoremap <A-l> <C-o>l
+" to toggle numbers, helpful in selecting text from putty
+nnoremap <F10> :set invnumber invrelativenumber<CR>
+" toggle paste mode
+map <F11> :set invpaste<CR>
+" toggle between terminal and vim mouse
+map <silent><F12> :let &mouse=(&mouse == "a"?"":"a")<CR>:call ShowMouseMode()<CR>
+imap <silent><F12> :let &mouse=(&mouse == "a"?"":"a")<CR>:call ShowMouseMode()<CR>
+map <Leader> <Plug>(easymotion-prefix)
+" for getting shell without exiting vim
+noremap <C-d> :sh<cr>
+" key to show function name currently the cursor is in
+map <C-f> :call ShowFuncName() <CR>
+map <Space> <Plug>(easymotion-prefix)
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => auto cmd's
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd BufWrite *.c :call DeleteTrailingWS()
+autocmd BufWrite *.h :call DeleteTrailingWS()
+au BufEnter /* call LoadCscope()
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o formatoptions-=t
+autocmd filetype c,h highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+autocmd filetype c,h match OverLength /\%81v/
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Helper functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! CmdLine(str)
+        exe "menu Foo.Bar :" . a:str
+        emenu Foo.Bar
+        unmenu Foo
+endfunction
+
+function ShowMouseMode()
+        if (&mouse == 'a')
+                echo "mouse-vim"
+        else
+                echo "mouse-xterm"
+        endif
+endfunction
+
+" Returns true if paste mode is enabled
+function! HasPaste()
+        if &paste
+                return 'PASTE MODE  '
+        en
+        return ''
+endfunction
+
+" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+func! DeleteTrailingWS()
+        exe "normal mz"
+        %s/\s\+$//ge
+        exe "normal `z"
+endfunc
+
+fun! ShowFuncName()
+        let lnum = line(".")
+        let col = col(".")
+        echohl ModeMsg
+        echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
+        echohl None
+        call search("\\%" . lnum . "l" . "\\%" . col . "c")
+endfun
+
+function! LoadCscope()
+        let db = findfile("cscope.out", ".;")
+        if (!empty(db))
+                let path = strpart(db, 0, match(db, "/cscope.out$"))
+                set nocscopeverbose " suppress 'duplicate connection' error
+                exe "cs add " . db . " " . path
+                set cscopeverbose
+        endif
+endfunction
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Others
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+          \ | wincmd p | diffthis
+endif
+
+" Source a global configuration file if available
+if filereadable("/etc/vim/vimrc.local")
+  source /etc/vim/vimrc.local
+endif
+
+
+set iskeyword+=/,-
+
+" nmap <C-p> :.s/^/printf("%s %d \\n",__func__,__LINE__);<CR>
+
+" mapping keys
+" Press F8 to toggle highlighting on/off, and show curr value
+noremap <F8> :set hlsearch! hlsearch?<CR>
+
+set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=/home/satish/.vim/bundle/powerline/powerline/bindings/vim
+call vundle#begin()
+" let Vundle manage Vundle
+" required!
+" plugin on GitHub repo
+Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-fugitive'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'kien/ctrlp.vim'
+Bundle 'gmarik/vundle'
+" My Bundles here:
+"
+" original repos on github
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+Bundle 'tpope/vim-rails.git'
+Bundle 'altercation/vim-colors-solarized.git'
+Bundle 'tpope/vim-surround'
+Bundle 'nanotech/jellybeans.vim'
+Bundle 'Lokaltog/powerline'
+Bundle 'vim-scripts/scons.vim'
+Bundle 'tomtom/tcomment_vim'
+Bundle 'vim-coffee-script'
+Bundle 'Raimondi/delimitMate'
+Bundle 'docunext/closetag.vim'
+Bundle 'ervandew/supertab'
+Bundle 'vim-scripts/a.vim'
+Bundle 'miripiruni/CSScomb-for-Vim.git'
+Bundle 'sjl/gundo.vim'
+Bundle 'godlygeek/tabular'
+Bundle 'wincent/Command-T'
+Bundle 'vim-scripts/cmake.vim-syntax'
+"Bundle 'majutsushi/tagbar' "not able move up after open file
+Bundle 'chazy/cscope_maps'
+Bundle 'airblade/vim-gitgutter'
+Bundle 'ludovicchabant/vim-gutentags'
+Bundle 'mhinz/vim-randomtag'
+Bundle 'dhruvasagar/vim-table-mode'
+Bundle 'xolox/vim-notes'
+Bundle 'xolox/vim-misc'
+"vim-scripts repos
+Bundle 'L9'
+Bundle 'FuzzyFinder'
+" non github repos
+Bundle 'git://git.wincent.com/command-t.git'
+Bundle 'maksimr/vim-jsbeautify'
+Bundle 'einars/js-beautify'
+"set path to js-beautify file
+ let s:rootDir = fnamemodify(expand("<sfile>"), ":h")
+ let g:jsbeautify_file = fnameescape(s:rootDir."/bundle/js-beautify/beautify.js")
+ let g:htmlbeautify_file = fnameescape(s:rootDir."/bundle/js-beautify/beautify-html.js")
+ let g:cssbeautify_file = fnameescape(s:rootDir."/bundle/js-beautify/beautify-css.js")
+" ...
+" The following are examples of different formats supported.
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+
+"
+"set t_Co=256
+set fillchars+=stl:\ ,stlnc:\
+set ambiwidth=double
+
+" NERDTree Config
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists(s:std_in) | NERDTree | endif
+" For mouse click in NERDTree
+let g:NERDTreeMouseMode=3
+" For open new tab by default
+" let NERDTreeMapOpenInTab='<ENTER>'
+" To put new buffer below current buffer
+
+if has("terminfo")
+  let &t_Co=16
+  let &t_AB="\<Esc>[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm"
+  let &t_AF="\<Esc>[%?%p1%{8}%<%t%p1%{30}%+%e%p1%{82}%+%;%dm"
+else
+  let &t_Co=16
+  let &t_Sf="\<Esc>[3%dm"
+  let &t_Sb="\<Esc>[4%dm"
+endif
+
+"colorscheme ron
+
+":set splitbelow
+"set listchars=tab:>-
+set encoding=utf-8 " Necessary to show unicode glyphs
+set t_Co=256 " Explicitly tell vim that the terminal supports only 16 colors
+set fillchars+=stl:\ ,stlnc:\
+set term=xterm-256color
+set termencoding=utf-8
+if has('gui_running')
+  set background=light
+else
+  set background=dark
+endif
+    " colorscheme solarized
+
+"no indenting while pasting
+nmap <F12> :set invpaste paste?<CR>
+set pastetoggle=<F12>
+set showmode
+
+function! ResCur()
+  if line("'\"") <= line("$")
+    normal! g`"
+    return 1
+  endif
+endfunction
+
+" augroup resCur
+"   autocmd!
+"   autocmd BufWinEnter * call ResCur()
+" augroup END
+
+function! Preserve(command)
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  execute a:command
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
+endfunction
+nmap _$ :call Preserve("%s/\\s\\+$//e")<CR>
+nmap _= :call Preserve("normal gg=G")<CR>
+nmap <C-s> <esc>:w
+nmap <F4> :set hlsearch! hlsearch?<CR>
+"nnoremap <C-]> :sp <CR> :exec("tag ".expand("<cword>"))<CR> "open each ctags def in new split window
+" abbreviations
+iab #i #include
+iab #d printf("DEBUG %s %s %d\n", __func__, __FILE__,__LINE__);
+iab #w rmos_msg(2, "DEBUG %s %d\n", __func__, __LINE__);
+iab #a asm("mov fp, ")
+iab !D <C-R>=strftime("%Y-%m-%d")<CR>
+iab #D printk(KERN_INFO "DEBUG %s %s %d\n", __func__, __FILE__,__LINE__);
+iab monday Monday
+iab tuesday Tuesday
+iab wednesday Wednesday
+iab thursday Thursday
+iab friday Friday
+iab saturday Saturday
+iab sunday Sunday
+
+
+com -nargs=1 AZ call Asm(<f-args>)
+function! Asm(size)
+          exe 'normal o asm("mov fp, #'. a:size .'");'
+endfunction
+
+" function! LoadCscope()
+"   let db = findfile("cscope.out", ".;")
+"   if (!empty(db))
+"     let path = strpart(db, 0, match(db, "/cscope.out$"))
+"     set nocscopeverbose " suppress 'duplicate connection' error
+"     exe "cs add " . db . " " . path
+"     set cscopeverbose
+"   endif
+" endfunction
+" au BufEnter /* call LoadCscope()
+
+fun! ShowFuncName()
+  let lnum = line(".")
+  let col = col(".")
+  echohl ModeMsg
+  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
+  echohl None
+  call search("\\%" . lnum . "l" . "\\%" . col . "c")
+endfun
+map f :call ShowFuncName() <CR>
+
+" Go to last file if invoked without arguments.
+autocmd VimEnter * nested if
+  \ argc() == 0 &&
+  \ bufname("%") == "" &&
+  \ bufname("2" + 0) != "" |
+  \   exe "normal! `0" |
+  \ endif
+
+" From vimrc_example.vim distributed with Vim 7.
+" When editing a file, always jump to the last known cursor position.
+" Don't do it when the position is invalid or when inside an event handler
+" (happens when dropping a file on gvim).
+autocmd BufReadPost *
+  \ if line("'\"") > 1 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+"
+" Brief help
+" :BundleList          - list configured bundles
+" :BundleInstall(!)    - install(update) bundles
+" :BundleSearch(!) foo - search(or refresh cache first) for foo
+" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+"
+" see :h vundle for more details or wiki for FAQ
+" NOTE: comments after Bundle command are not allowed..
+
+
