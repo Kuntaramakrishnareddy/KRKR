@@ -1,0 +1,9 @@
+
+
+fd = open(/root/ABC);
+fd1 = open(/media/xyz);
+fd2 = open(/mnt/abc);
+
+read(fd,...);
+read(fd1,...);
+

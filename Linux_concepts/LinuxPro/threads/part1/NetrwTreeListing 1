@@ -1,0 +1,16 @@
+
+../
+part1/
+| attr_sched.c
+| attr_sched1.c
+| attr_stack.c
+| defattrtib.c
+| detached_attrib.c
+| dyn_detach.c
+| dyn_join.c
+| ex2.c
+| simple_thread.c
+| simple_thread1.c
+| Makefile
+| lib
+| sched
