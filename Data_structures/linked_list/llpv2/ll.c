@@ -22,7 +22,7 @@ signed char Print_nodes(struct NODE **head){
 	EMPTY_CHECK(curr);
 	while(curr != NULL)
 	{
-		printf("->%d",curr->data);
+		printf("->%ld %d %ld", (int)&curr->data, curr->data, curr->next);
 		curr= curr->next;
 	}
 	printf("\n");
@@ -167,6 +167,16 @@ signed char Detect_loop_in_list(struct NODE **head){
 	printf("List doesn't have loop\n");
 	return 0;
 }
+signed char Free_nodes(struct NODE **head){
+	struct NODE *curr;
+	curr = *head;
+	for(curr = *head; curr;curr = curr->next){
+		printf("%d ",curr->data);
+		free(curr);
+		printf("%d \n",curr->data);
+	}
+	return 0;
+}
 
 int main()
 {
@@ -184,7 +194,8 @@ int main()
 			"\t 6-> Delete a node from a position \n"
 			"\t 7-> Reverse list \n"
 			"\t 8-> Create circular list \n"
-			"\t 9-> Detect a loop in list \n");
+			"\t 9-> Detect a loop in list \n"
+			"\t 10-> Free nodes \n");
 		scanf("%d",&c);
 
 		switch(c){
@@ -208,6 +219,8 @@ int main()
 			case 8: Create_circular_list(&Head);
 				break;
 			case 9: Detect_loop_in_list(&Head);
+				break;
+			case 10: Free_nodes(&Head);
 				break;
 			default: return 0;
 		}
