@@ -1,4 +1,3 @@
-
 #include<linux/init.h>
 #include<linux/kernel.h>
 #include<linux/module.h>
@@ -14,7 +13,7 @@
 #define WR_VALUE _IOW('a','a',int32_t*)
 #define RD_VALUE _IOR('a','b',int32_t*)
 
-int32_t value = 0;
+int32_t *kptr;
 dev_t dev;
 static struct class *dev_class;
 static struct cdev rk_cdev;
@@ -39,6 +38,7 @@ static struct file_operations fops=
 static int rk_open(struct inode *inode, struct file *file)
 {
   printk(KERN_INFO "%s\n",__func__);
+  kptr = kmalloc(1024, GFP_USER);
   return 0;
 }
 
@@ -62,14 +62,44 @@ static ssize_t rk_write(struct file *file, const char *buf, size_t len, loff_t *
 
 static long rk_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 {
+    int32_t *ptr, *tkptr, i;
+    printk(KERN_INFO "Inside ioctl\n");
     switch(cmd){
 	    case WR_VALUE:
-	    	    copy_from_user(&value,(int32_t*) arg, sizeof(value));
-	    	    printk(KERN_INFO "value %d\n", value);
-	    	    break;
+		    ptr = (int32_t *)arg;
+		    tkptr = kptr;
+		    printk(KERN_INFO "Inside Write ioctl\n");
+		    /*Here if we don't use 'copy_from_user' API if we directly
+		      try coping using userspace buffer virtual address incase
+		      if the physicall memory is not mapped in that case
+		      page_fault exception occurs if so kernel will not handle
+		      faults so kernel panic happens to avoid this we have
+		      copy_to_user and copy_from_user APIs which will handle
+		      page_fault exceptions
+		      TO test allocate 4k size buffer in userspace app and
+		      without touching it pass it to the kernel driver and in
+		      side driver try coping without copy to/from user APIs
+		      then kernel panic you can see in dmesg. below command
+		      helps you check the status of whether kernel panic enabled
+		      sudo sysctl -a|grep kernel|grep -e panic_on_oops -e sysrq
+		      */
+		    copy_from_user(kptr,ptr, 1024);
+		    for(i = 0; i < 1024; i++)
+		    {
+			    printk(KERN_INFO "%x ",*tkptr++);
+		    }
+		    break;
 	    case RD_VALUE:
-	    	    copy_to_user((int32_t*)arg, &value, sizeof(value));
-	    	    break;
+		    ptr = (int32_t *)arg;
+		    tkptr = kptr;
+		    printk(KERN_INFO "Inside Read ioctl\n");
+		    for(i = 0; i < 1024; i++)
+		    {
+			    *tkptr = ~(*tkptr);
+			    tkptr++;
+		    }
+		    copy_to_user(ptr, kptr, 1024);
+		    break;
     }
     return 0;
 }
